@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我的个人博客</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- 🆕 背景虚化层 -->
+    <div id="bg-blur"></div>
+
+    <header>
+        <div class="container nav">
+            <a href="#" class="logo" id="homeLink">我的博客</a>
+        </div>
+    </header>
+
+    <div class="container" id="app">
+        <div id="homeView">
+            <div class="time-display">
+                <div class="time" id="currentTime">--:--:--</div>
+                <div class="date" id="currentDate">---.-- --</div>
+            </div>
+            <div class="article-section">
+                <h2>文章</h2>
+                <div class="article-list" id="articleList"></div>
+            </div>
+        </div>
+
+        <div id="detailView" style="display:none;">
+            <div class="article-detail" id="articleDetail">
+                <button id="backBtn" class="back-btn">← 返回</button>
+                <h1 id="detailTitle"></h1>
+                <div class="detail-image" id="detailImage"></div>
+                <div class="info" id="detailMeta"></div>
+                <div class="content" id="detailContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>© 2026 我的个人博客</p>
+        </div>
+    </footer>
+
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
