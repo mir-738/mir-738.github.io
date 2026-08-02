@@ -1,4 +1,3 @@
-// DOM 引用
 const homeView = document.getElementById('homeView');
 const detailView = document.getElementById('detailView');
 const articleList = document.getElementById('articleList');
@@ -9,31 +8,77 @@ const detailContent = document.getElementById('detailContent');
 const backBtn = document.getElementById('backBtn');
 const homeLink = document.getElementById('homeLink');
 const bgBlur = document.getElementById('bg-blur');
+const musicPlayer = document.getElementById('musicPlayer');
+const musicSource = document.getElementById('musicSource');
+const musicToggle = document.getElementById('musicToggle');
+const musicDisc = document.getElementById('musicDisc');
+const backToTop = document.getElementById('backToTop');
 
-// ===== 文本自动转 HTML =====
+const musicTrack = './nusic.mp3';
+
+function sortArticlesByDateDesc(list) {
+    return [...list].sort((a, b) => {
+        const dateA = new Date(a.create_time).getTime();
+        const dateB = new Date(b.create_time).getTime();
+        return dateB - dateA;
+    });
+}
+
+function escapeHtml(text) {
+    return text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+function renderContentBlock(block) {
+    const lines = block.split('\n').map(line => line.trim()).filter(Boolean);
+    if (lines.length === 0) return '';
+
+    const firstLine = lines[0];
+
+    if (firstLine.startsWith('###')) {
+        const heading = escapeHtml(firstLine.replace(/^###\s*/, ''));
+        const rest = lines.slice(1).join(' ');
+        return rest
+            ? `<h3>${heading}</h3><p>${escapeHtml(rest).replace(/\n/g, '<br>')}</p>`
+            : `<h3>${heading}</h3>`;
+    }
+
+    if (lines.every(line => line.startsWith('-'))) {
+        const items = lines
+            .map(line => `<li>${escapeHtml(line.replace(/^-\s*/, ''))}</li>`)
+            .join('');
+        return `<ul>${items}</ul>`;
+    }
+
+    if (lines.every(line => line.startsWith('>'))) {
+        const quote = lines
+            .map(line => escapeHtml(line.replace(/^>\s*/, '')))
+            .join('<br>');
+        return `<blockquote>${quote}</blockquote>`;
+    }
+
+    return `<p>${escapeHtml(block).replace(/\n/g, '<br>')}</p>`;
+}
+
 function formatContent(text) {
     if (!text) return '';
-    let paragraphs = text.split(/\n\s*\n/);
-    if (paragraphs.length === 1) {
-        paragraphs = text.split(/\n/);
-    }
-    return paragraphs
-        .filter(p => p.trim().length > 0)
-        .map(p => `<p>${p.trim()}</p>`)
+    return text
+        .split(/\n\s*\n/)
+        .map(p => p.trim())
+        .filter(Boolean)
+        .map(renderContentBlock)
         .join('');
 }
 
-// ===== 工具：从数组随机取一项 =====
 function randomPick(arr) {
     if (!arr || arr.length === 0) return null;
-    const index = Math.floor(Math.random() * arr.length);
-    return arr[index];
+    return arr[Math.floor(Math.random() * arr.length)];
 }
 
-// ===== 🆕 背景虚化层管理 =====
-function getRandomBg() {
-    return randomPick(backgroundImages);
-}
 function setBackground(imageUrl) {
     if (!imageUrl) {
         bgBlur.style.backgroundImage = '';
@@ -43,56 +88,46 @@ function setBackground(imageUrl) {
     bgBlur.style.backgroundImage = `url(${imageUrl})`;
     bgBlur.classList.add('show');
 }
+
 function clearBackground() {
     bgBlur.style.backgroundImage = '';
     bgBlur.classList.remove('show');
 }
 
-// ===== 获取随机配图 =====
 function getRandomArticleImage() {
     return randomPick(articleImages);
 }
 
-// ===== 渲染卡片列表 =====
 function renderArticleList() {
-    articleList.innerHTML = articles.map(article => `
-        <div class="article-card" data-id="${article.id}">
+    const sortedArticles = sortArticlesByDateDesc(articles);
+    articleList.innerHTML = sortedArticles.map(article => `
+        <article class="article-card" data-id="${article.id}">
             <div class="card-header">
                 <div class="card-title">${article.title}</div>
                 <div class="card-date">${article.create_time}</div>
             </div>
             <hr class="card-divider">
-            <div class="card-summary">${article.summary || '（暂无题记）'}</div>
-        </div>
+            <div class="card-summary">${article.summary || '（暂无摘要）'}</div>
+        </article>
     `).join('');
 
     document.querySelectorAll('.article-card').forEach(card => {
-        card.addEventListener('click', function() {
-            const id = parseInt(this.dataset.id);
-            showDetail(id);
-        });
+        card.addEventListener('click', () => showDetail(Number(card.dataset.id)));
     });
 }
 
-// ===== 显示详情 =====
 function showDetail(id) {
     const article = articles.find(a => a.id === id);
     if (!article) return;
 
-    // 随机背景（虚化层）
-    const bg = getRandomBg();
+    const bg = randomPick(backgroundImages);
     if (bg) setBackground(bg);
 
-    // 随机配图
     const img = getRandomArticleImage();
-    if (img) {
-        detailImage.innerHTML = `<img src="${img}" alt="${article.title}">`;
-    } else {
-        detailImage.innerHTML = '';
-    }
+    detailImage.innerHTML = img ? `<img src="${img}" alt="${article.title}">` : '';
 
     detailTitle.textContent = article.title;
-    detailMeta.textContent = `发布时间：${article.create_time}  |  分类：${article.category}`;
+    detailMeta.textContent = `发布时间：${article.create_time} | 分类：${article.category}`;
     detailContent.innerHTML = formatContent(article.content);
 
     homeView.style.display = 'none';
@@ -100,7 +135,6 @@ function showDetail(id) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ===== 返回首页 =====
 function goHome() {
     clearBackground();
     detailView.style.display = 'none';
@@ -108,30 +142,92 @@ function goHome() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// ===== 时钟更新 =====
 function updateTime() {
     const now = new Date();
     const h = String(now.getHours()).padStart(2, '0');
     const m = String(now.getMinutes()).padStart(2, '0');
     const s = String(now.getSeconds()).padStart(2, '0');
-    document.getElementById('currentTime').textContent = h + ':' + m + ':' + s;
+    document.getElementById('currentTime').textContent = `${h}:${m}:${s}`;
 
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC'];
     const month = months[now.getMonth()];
-    const day = now.getDate();
-    const year = String(now.getFullYear()).slice(-2);
-    document.getElementById('currentDate').textContent = month + '.' + day + ' ' + year;
+    const day = String(now.getDate()).padStart(2, '0');
+    const year = String(now.getFullYear());
+    const weekday = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][now.getDay()];
+
+    document.getElementById('currentMonth').textContent = month;
+    document.getElementById('currentDay').textContent = day;
+    document.getElementById('currentYear').textContent = `${year} ${weekday}`;
 }
 
-// ===== 初始化 =====
+function updateBackToTopVisibility() {
+    if (!backToTop) return;
+    if (window.scrollY > 300) {
+        backToTop.classList.add('show');
+    } else {
+        backToTop.classList.remove('show');
+    }
+}
+
+function initMusic() {
+    if (musicTrack && musicSource && musicPlayer) {
+        musicSource.src = musicTrack;
+        musicPlayer.load();
+        musicPlayer.play().then(() => {
+            musicDisc?.classList.add('playing');
+        }).catch(() => {
+            // 浏览器阻止自动播放时，等待用户首次交互。
+        });
+    }
+}
+
+function enableMusicOnFirstGesture() {
+    const startMusic = () => {
+        if (musicTrack && musicPlayer) {
+            musicPlayer.play().then(() => {
+                musicDisc?.classList.add('playing');
+            }).catch(() => {});
+        }
+        window.removeEventListener('pointerdown', startMusic);
+        window.removeEventListener('keydown', startMusic);
+    };
+
+    window.addEventListener('pointerdown', startMusic, { once: true });
+    window.addEventListener('keydown', startMusic, { once: true });
+}
+
+function toggleMusic() {
+    if (!musicTrack || !musicPlayer) return;
+    if (musicPlayer.paused) {
+        musicPlayer.play().then(() => {
+            musicDisc?.classList.add('playing');
+        }).catch(() => {});
+    } else {
+        musicPlayer.pause();
+        musicDisc?.classList.remove('playing');
+    }
+}
+
+musicPlayer?.addEventListener('play', () => musicDisc?.classList.add('playing'));
+musicPlayer?.addEventListener('pause', () => musicDisc?.classList.remove('playing'));
+musicToggle?.addEventListener('click', toggleMusic);
+backToTop?.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
 renderArticleList();
 updateTime();
 setInterval(updateTime, 1000);
+initMusic();
+enableMusicOnFirstGesture();
+updateBackToTopVisibility();
 
-backBtn.addEventListener('click', goHome);
-homeLink.addEventListener('click', function(e) {
+backBtn?.addEventListener('click', goHome);
+homeLink.addEventListener('click', (e) => {
     e.preventDefault();
     goHome();
 });
+
+window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
 
 goHome();
