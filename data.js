@@ -19,8 +19,8 @@ const articleImages = [
 const articles = [
     {
         id: 1,
-        title: 'AI Agent 聊天机器人：从想法到可用版本',
-        summary: '记录我搭建 AI Agent 聊天机器人的过程：从功能拆分、提示词设计，到工具调用和页面联动的完整复盘。',
+        title: 'AI Agent 聊天机器人',
+        summary: '从零到打造一个能聊天、能记事、能查天气的 AI 桌面助手。',
         content: `
   
 之前在网上一直听说 AI Agent 有多强大，能自己调用工具、记住上下文、像人一样思考。这周我终于有机会自己动手做一个了。我跟着菜鸟教程一步步走进了 AI 的世界，过程中接触到了不少新鲜的专业术语：Tools（工具）、Prompt（提示词）、Token（令牌）、LLM（大语言模型）的多态能力…… 一开始听得云里雾里，但亲手写代码之后，这些概念才真正活了起来。
@@ -80,7 +80,7 @@ _get_time：获取当前时间。
     {
         id: 2,
         title: 'Deepseek-rag 检索项目',
-        summary: '整理 Deepseek-rag RAG 项目的制作思路、检索链路和我在向量检索、切片策略上的一些心得。',
+        summary: 'rag检索增强生成项目，支持本地知识库和网络搜索。',
         content: `
         ###为什么想做这个项目？
 在用大语言模型的时候，我经常遇到一个头疼的问题：模型无法参考相关文档，只能凭记忆回答问题。结果就是，模型回答的内容可能不准确，甚至完全错误。
@@ -167,8 +167,8 @@ FAISS 在 Windows 上的安装就比较折腾，某些版本只支持 Python 3.9
     },
     {
         id: 3,
-        title: 'Hello World',
-        summary: '计算机真是一门深刻的学问啊。',
+        title: 'Hello World！',
+        summary: '长风破浪会有是时，直挂云帆济沧海。',
         content: `
 
 
