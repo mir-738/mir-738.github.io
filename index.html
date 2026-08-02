@@ -7,37 +7,74 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- 🆕 背景虚化层 -->
     <div id="bg-blur"></div>
 
     <header>
         <div class="container nav">
             <a href="#" class="logo" id="homeLink">我的博客</a>
+            <span class="nav-subtitle">记录项目、思考与成长</span>
         </div>
     </header>
 
-    <div class="container" id="app">
-        <div id="homeView">
-            <div class="time-display">
-                <div class="time" id="currentTime">--:--:--</div>
-                <div class="date" id="currentDate">---.-- --</div>
-            </div>
-            <div class="article-section">
-                <h2>文章</h2>
-                <div class="article-list" id="articleList"></div>
-            </div>
-        </div>
+    <main class="container" id="app">
+        <section id="homeView">
+            <section class="hero-cards">
+                <article class="time-display">
+                    <div class="clock-panel">
+                        <div class="clock-side">
+                            <div class="time-label">当前时间</div>
+                            <div class="time" id="currentTime">--:--:--</div>
+                            <div class="time-caption">持续输出，持续迭代</div>
+                        </div>
+                        <div class="calendar-side">
+                            <div class="calendar-month" id="currentMonth">--</div>
+                            <div class="calendar-day" id="currentDay">--</div>
+                            <div class="calendar-year" id="currentYear">----</div>
+                        </div>
+                    </div>
+                </article>
+            </section>
 
-        <div id="detailView" style="display:none;">
-            <div class="article-detail" id="articleDetail">
+            <section class="content-grid">
+                <section class="article-section">
+                    <div class="section-header">
+                        <h2>文章目录</h2>
+                        <p>从项目到感悟，把每一次完成都留下痕迹。</p>
+                    </div>
+                    <div class="article-list article-list-vertical" id="articleList"></div>
+                </section>
+            </section>
+
+        </section>
+
+        <section id="detailView" style="display:none;">
+            <article class="article-detail" id="articleDetail">
                 <button id="backBtn" class="back-btn">← 返回</button>
                 <h1 id="detailTitle"></h1>
                 <div class="detail-image" id="detailImage"></div>
                 <div class="info" id="detailMeta"></div>
                 <div class="content" id="detailContent"></div>
-            </div>
-        </div>
-    </div>
+            </article>
+        </section>
+    </main>
+
+    <aside class="side-toolbar" aria-label="Quick actions">
+        <button id="backToTop" class="toolbar-btn back-to-top" type="button" aria-label="Back to top">↑</button>
+        <a class="toolbar-btn" href="https://github.com/mir-738" target="_blank" rel="noreferrer" aria-label="Open GitHub">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 .5C5.73.5.68 5.67.68 12.08c0 5.12 3.29 9.46 7.86 10.99.58.11.79-.26.79-.57v-2.1c-3.2.71-3.88-1.4-3.88-1.4-.52-1.36-1.26-1.72-1.26-1.72-1.03-.72.08-.71.08-.71 1.14.08 1.74 1.18 1.74 1.18 1.02 1.79 2.67 1.27 3.32.97.1-.76.39-1.27.7-1.56-2.56-.3-5.25-1.31-5.25-5.84 0-1.29.45-2.35 1.19-3.18-.12-.3-.52-1.5.11-3.13 0 0 .97-.32 3.16 1.21a10.86 10.86 0 0 1 5.75 0c2.19-1.53 3.16-1.21 3.16-1.21.63 1.63.23 2.83.11 3.13.74.83 1.19 1.89 1.19 3.18 0 4.54-2.69 5.54-5.26 5.84.4.35.76 1.03.76 2.08v3.08c0 .31.21.69.8.57 4.56-1.53 7.85-5.87 7.85-10.99C23.32 5.67 18.27.5 12 .5z"></path>
+            </svg>
+        </a>
+        <button class="toolbar-btn music-toggle" id="musicToggle" type="button" aria-label="Play music">
+            <span class="disc" id="musicDisc" aria-hidden="true">
+                <span class="disc-hole"></span>
+            </span>
+        </button>
+    </aside>
+
+    <audio id="musicPlayer" preload="none" hidden>
+        <source id="musicSource" src="music.mp3" type="audio/mpeg">
+    </audio>
 
     <footer>
         <div class="container">
