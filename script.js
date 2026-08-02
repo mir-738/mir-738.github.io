@@ -127,7 +127,7 @@ function showDetail(id) {
     detailImage.innerHTML = img ? `<img src="${img}" alt="${article.title}">` : '';
 
     detailTitle.textContent = article.title;
-    detailMeta.textContent = `发布时间：${article.create_time} | 分类：${article.category}`;
+    detailMeta.textContent = `发布时间：${article.create_time} | ${article.category}`;
     detailContent.innerHTML = formatContent(article.content);
 
     homeView.style.display = 'none';
