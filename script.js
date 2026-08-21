@@ -39,6 +39,13 @@ function renderContentBlock(block) {
 
     const firstLine = lines[0];
 
+    const imageMatch = block.match(/^!\[([^\]]*)\]\(([^)]+)\)\s*$/);
+    if (imageMatch) {
+        const alt = escapeHtml(imageMatch[1]);
+        const src = escapeHtml(imageMatch[2]);
+        return `<p class="article-image"><img src="${src}" alt="${alt}" loading="lazy"></p>`;
+    }
+
     if (firstLine.startsWith('###')) {
         const heading = escapeHtml(firstLine.replace(/^###\s*/, ''));
         const rest = lines.slice(1).join(' ');
