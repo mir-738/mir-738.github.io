@@ -1,19 +1,19 @@
 const backgroundImages = [
-    'image/bg1.jpg',
-    'image/bg2.jpg',
-    'image/bg3.jpg',
-    'image/bg4.jpg',
-    'image/bg5.jpg',
-    'image/bg6.jpg',
+    'image/back/bg1.jpg',
+    'image/back/bg2.jpg',
+    'image/back/bg3.jpg',
+    'image/back/bg4.jpg',
+    'image/back/bg5.jpg',
+    'image/back/bg6.jpg',
 ];
 
 const articleImages = [
-    'image/bg1.jpg',
-    'image/bg2.jpg',
-    'image/bg3.jpg',
-    'image/bg4.jpg',
-    'image/bg5.jpg',
-    'image/bg6.jpg',
+    'image/back/bg1.jpg',
+    'image/back/bg2.jpg',
+    'image/back/bg3.jpg',
+    'image/back/bg4.jpg',
+    'image/back/bg5.jpg',
+    'image/back/bg6.jpg',
 ];
 
 const articles = [
@@ -211,7 +211,9 @@ npx @deepseek-ai/dsh web
 
 后来又下了一个社区做的皮肤插件，换了套界面配色，看着顺眼多了。之前那个深色主题用久了有点沉闷，换个皮肤感觉像换了个新工具，连带着写代码心情都好了一些。
 
-整个过程走下来感觉挺顺畅的。插件开发门槛不高，稍微有点JavaScript基础就能上手。社区也挺活跃，发布才几天，GitHub上星标已经冲到十几万了，各种插件和皮肤冒出来不少，大家玩得挺花。
+![皮肤插件](image/picture/skin.jpg)
+
+整个过程走下来感觉挺顺畅的。插件开发门槛不高，稍微有点编程基础就能上手。社区也挺活跃，发布才几天，GitHub上星标已经冲到十几万了，各种插件和皮肤冒出来不少，大家玩得挺花。
 
 说实话，国内能把这种级别的工具开源出来，而且上手门槛做得这么低，作为开发者还是蛮开心的。从之前的DeepSeek V3到R1，再到这次的Harness，能感觉到他们确实在认真做东西，也愿意拿出来让所有人一起玩。说句实在话，感觉国内AI这波确实要起来了。`,
         create_time: '2026-08-14',
@@ -223,15 +225,19 @@ npx @deepseek-ai/dsh web
         title: 'DSH使用体验和DS涨价的感想',
         summary: '记录DeepSeek涨价后的使用感受，以及在DSH上折腾识图插件、多Agent协同插件的过程和感想。',
         content: `
-DeepSeek涨价这事儿，说实话有点肉疼。
+DeepSeek涨价，我们普通人该何去何从。
 
-我是从8月17号那天开始注意到的。涨价之前，改几行代码、调个小功能，跑一次也就几毛钱，完全不觉得是个事儿。可涨价之后就不一样了，随便跑个任务动不动就一两块，一天下来积少成多，心里开始有数了。
+8月17号deepseek正式开始涨价。涨价之前，改几行代码、调个小功能，跑一次也就几毛钱，完全不觉得是个事儿。可涨价之后就不一样了，随便跑个任务动不动就一两块，一天下来积少成多，心里开始有数了。
 
 不过钱花了，活儿也没白干。趁着这段时间，我又在DSH上折腾了几个插件。
 
 第一个是给DeepSeek加了个识图功能。其实就是通过调用Qwen的多模态模型来曲线救国，让DSH也能看懂图片。上午刚把插件跑通试完，还挺得意的。结果到了晚上就刷到消息——DeepSeek官方自己出多模态了，支持图像识别了。怎么说呢，就是那种「我刚修好一辆自行车，抬头一看高铁从我头顶飞过去」的感觉，又好笑又有点无奈。
 
+![识图能力](image/picture/watch-skill.jpg)
+
 第二个是个多Agent协同插件。之前用Kimi的时候，有个多角色协同讨论的功能我觉得特别有意思——一个Agent负责想方案，一个负责挑毛病，还有一个做总结，几轮下来方案就打磨得差不多了。我在DSH里把这个思路复现了一下，几个Agent各管一摊，互相吵一吵，最后出来的结果确实比单个Agent靠谱。不得不说，DSH这个「一切皆插件」的设计是真的强，只要你想得到，基本都能搭出来。
+
+![多Agent协同](image/picture/more-agents.jpg)
 
 这两天DeepSeek也官宣支持多模态了，变化快得让人有点追不上。今天还在自己造轮子，明天官方就给你把路铺好了。这个时代好像真的是——你学得慢一点，就可以干脆不用学了，因为等你好不容易搞明白一个东西，它已经迭代好几轮了。
 

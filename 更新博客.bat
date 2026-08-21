@@ -1,16 +1,46 @@
 @echo off
-chcp 65001 >nul
+setlocal
 cd /d "%~dp0"
 
-echo === æ­£åœ¨æäº¤å¹¶æ¨é€åšå®¢æ›´æ–° ===
-git add .
+echo === ÕıÔÚÌá½»²¢ÍÆËÍ²©¿Í¸üĞÂ ===
 
-set /p msg=è¯·è¾“å…¥æœ¬æ¬¡æäº¤è¯´æ˜ï¼ˆç›´æ¥å›è½¦åˆ™ä½¿ç”¨å½“å‰æ—¶é—´ï¼‰: 
+echo [1/4] ¼ì²é´úÀíÁ¬½Ó£¨Clash 7897£©...
+curl.exe -s -o NUL --connect-timeout 5 --proxy socks5h://127.0.0.1:7897 https://github.com
+if errorlevel 1 (
+    echo.
+    echo [´íÎó] Á¬²»ÉÏ´úÀí 127.0.0.1:7897£¬ÇëÏÈ´ò¿ª Clash ÔÙÖØÊÔ¡£
+    echo.
+    pause
+    exit /b 1
+)
+
+echo [2/4] Ìí¼ÓÎÄ¼ş...
+git add .
+if errorlevel 1 (
+    echo [´íÎó] git add Ê§°Ü£¬Çë°ÑÉÏ·½ºìÉ«±¨´í·¢¸øÎÒ¡£
+    pause
+    exit /b 1
+)
+
+set /p msg=ÇëÊäÈë±¾´ÎÌá½»ËµÃ÷£¨Ö±½Ó»Ø³µÔòÊ¹ÓÃµ±Ç°Ê±¼ä£©: 
 if "%msg%"=="" set "msg=update %date% %time%"
 
+echo [3/4] Ìá½»...
 git commit -m "%msg%"
+if errorlevel 1 echo [ÌáÊ¾] Ã»ÓĞĞÂ¸Ä¶¯¿ÉÌá½»£¬¼ÌĞø³¢ÊÔÍÆËÍ¡£
+
+echo [4/4] ÍÆËÍ...
 git push
+if errorlevel 1 (
+    echo.
+    echo [´íÎó] ÍÆËÍÊ§°Ü£¬Çë°ÑÉÏ·½ºìÉ«±¨´í·¢¸øÎÒ£¬»ò¼ì²é£º
+    echo   1. Clash ´úÀíÊÇ·ñÒÑ¿ªÆô
+    echo   2. Èç¹ûµ¯³öÕËºÅÃÜÂë£ºÓÃ»§ÃûÌî GitHub ÓÃ»§Ãû£¬ÃÜÂëÌî¸öÈË·ÃÎÊÁîÅÆ£¨PAT£©£¬²»ÊÇÍøÒ³µÇÂ¼ÃÜÂë
+    echo.
+    pause
+    exit /b 1
+)
 
 echo.
-echo === å®Œæˆ ===
+echo === Íê³É£¬ÒÑ³É¹¦ÍÆËÍµ½ GitHub ===
 pause
